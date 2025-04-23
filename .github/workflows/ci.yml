@@ -1,0 +1,19 @@
+name: ci
+on: [ push, pull_request ]
+
+
+jobs:
+  choco:
+    name: choco
+    runs-on: windows-2022
+    continue-on-error: false
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: "`chocolatey` ~ install"
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
